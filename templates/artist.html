@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../public/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>{{.Name}}</title>
+</head>
+<style>
+    body {
+        height: 100vh;
+    }
+
+    p {
+        color: black;
+    }
+
+    h2 {
+        background: none;
+        color: black;
+    }
+</style>
+<body>
+    <div class="ind-container">
+        <header class="ind-header">
+          <h2>Soja</h2>
+          <p>First album: 05-06-2002</p>
+        </header>
+        <main class="ind-main">
+          <div class="ind-image">
+            <img src="https://groupietrackers.herokuapp.com/api/images/soja.jpeg">
+          </div>
+          <article class="ind-members">
+            <p onclick="document.getElementById('membersul').classList.toggle('hidden')
+                        document.getElementById('memberspan1').classList.toggle('hidden')
+                        document.getElementById('memberspan2').classList.toggle('hidden')"><span id="memberspan1" class="hidden">&#9656 </span><span id="memberspan2">&#9662 </span>Members</p>
+            <div id="members">
+              <ul id="membersul" class="">
+                {{range  (index .Artist $ID).Members  }}
+                <li>{{ . }}</li>
+                {{end}}
+              </ul>
+            </div>
+          </article>
+          <article class="ind-locations">
+            <p onclick="document.getElementById('locationsul').classList.toggle('hidden')
+                        document.getElementById('locationspan1').classList.toggle('hidden')
+                        document.getElementById('locationspan2').classList.toggle('hidden')"><span id="locationspan1" class="hidden">&#9656 </span><span id="locationspan2">&#9662 </span>Locations</p>
+                <div id="locations">
+            <table id="locationsul">
+                {{range $v := (index .LocationsHtml.Index $ID).Locations}}
+              <tr>
+                <td>{{ $v }}<td>
+                <td>
+                  <ul>
+                    <li class="date-li">05-12-2019</li>
+                    <li class="date-li">06-12-2019</li>
+                    <li class="date-li">07-12-2019</li>
+                    <li class="date-li">08-12-2019</li>
+                    <li class="date-li">09-12-2019</li>
+                  </ul>
+                </td>
+              </tr>
+              {{end}}
+            </table>
+          </div>
+          </article>
+        </main>
+      </div>
+</body>
+</html>

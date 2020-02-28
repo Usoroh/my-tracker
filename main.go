@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 var temp *template.Template
@@ -65,6 +66,7 @@ func main() {
 	http.Handle("/public/", http.StripPrefix("/public/", static))
 
 	http.HandleFunc("/", mainPage)
+	http.HandleFunc("/artist", getArtist)
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
@@ -82,3 +84,15 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 		temp.Execute(w, API.Artist)
 	}
 }
+
+func getArtist(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("lel")
+	temp, _ := template.ParseFiles("templates/artist.html")
+
+	if r.Method == "GET" {
+		ID, _ := strconv.Atoi(r.FormValue("uid"))
+		API.ID = ID - 1
+		temp.Execute(w, API)
+	}
+}
+

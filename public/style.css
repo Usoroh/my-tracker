@@ -1,4 +1,5 @@
 body {
+    /* height: 100vh; */
     background-image: linear-gradient(to top, #f43b47 0%, #453a94 100%);
     /* background-image: linear-gradient(to top, #0250c5 0%, #d43f8d 100%); */
 }
@@ -56,3 +57,47 @@ header {
   .btn {
     width: 100%;
   }
+
+
+  /* Artist style */
+
+  .ind-container {
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(255,255,255, 0.1);
+    border-radius: 5px;
+    font-weight: 1000;
+  }
+  
+  .ind-image, h2, p {
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  
+  
+  #members {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .ind-members p {
+    margin-top: 5%;
+  }
+  
+  #members ul {
+    list-style-type: none;
+  }
+  
+  tr {
+    border-top: 1px solid black;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
