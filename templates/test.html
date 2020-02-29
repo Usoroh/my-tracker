@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../public/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<style>
+body {
+  /* height: 100vh; */
+  /* background-image: linear-gradient(to top, #f43b47 0%, #453a94 100%); */
+    /* background-image: linear-gradient(to top, #0250c5 0%, #d43f8d 100%); */
+    /* background-color: #553a8c; */
+    background-image: linear-gradient(to top, #803a79 0%, #803a79 100%);
+}
+
+.ind-container {
+  width: 30%;
+  margin: 0 auto;
+  margin-top: 3%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* background-color: rgba(255,255,255, 0.1); */
+  background-color: white;
+  border-radius: 5px;
+  font-weight: 1000;
+  text-transform: uppercase;
+  margin-bottom: 5%;
+}
+
+.ind-image, h2, p {
+  text-align: center;
+  cursor: pointer;
+  color: black;
+}
+
+
+
+#members {
+  display: flex;
+  justify-content: center;
+}
+
+.ind-members p {
+  margin-top: 5%;
+}
+
+#members ul {
+  list-style-type: none;
+}
+
+tr {
+  border-top: 1px solid black;
+}
+
+.hidden {
+  display: none;
+}
+
+.logo b {
+    font: 400 3vh "Vibur";
+}
+
+.logo:hover {
+    transform: scale(1.1);
+}
+
+#back-link {
+    width: 10%;
+    margin: 0 auto;
+    margin-top: 2%;
+    text-decoration: none;
+}
+</style>
+<body>
+    <a id="back-link" href="/"><div class="logo"><b>Gr<span>ou</span>pie <span>Tra</span>cker</b></div></a>
+    <div class="ind-container">
+        <header class="ind-header">
+          <h2>{{ (index .Artist .ID).Name}}</h2>
+          <p>Created: {{ (index .Artist .ID).CreationDate}}</p>
+          <p>First album: {{ (index .Artist .ID).FirstAlbum}}</p>
+        </header>
+        <main class="ind-main">
+          <div class="ind-image">
+            <img src="{{ (index .Artist .ID).Image}}">
+          </div>
+          <article class="ind-members">
+            <p onclick="document.getElementById('membersul').classList.toggle('hidden')
+                        document.getElementById('memberspan1').classList.toggle('hidden')
+                        document.getElementById('memberspan2').classList.toggle('hidden')"><span id="memberspan1" class="hidden">&#9656 </span><span id="memberspan2">&#9662 </span>Members</p>
+            <div id="members">
+              <ul id="membersul" class="">
+                {{ range (index .Artist .ID).Members }}
+                <li>{{ . }}</li>
+                {{end}}
+              </ul>
+            </div>
+          </article>
+          <article class="ind-locations">
+            <p onclick="document.getElementById('locationsul').classList.toggle('hidden')
+                        document.getElementById('locationspan1').classList.toggle('hidden')
+                        document.getElementById('locationspan2').classList.toggle('hidden')"><span id="locationspan1" class="hidden">&#9656 </span><span id="locationspan2">&#9662 </span>Concerts</p>
+                <div id="locations">
+            <table id="locationsul">
+                {{range $locations, $dates := (index .RelationsHtml.Index .ID).DatesLocations}}
+              <tr>
+                <td>{{ $locations }}<td>
+                <td>
+                  <ul>
+                     {{range $dates}} 
+                    <li class="date-li">{{ . }}</li> 
+                    {{end}}
+                  </ul>
+                </td>
+              </tr>
+              {{end}}
+            </table>
+          </div>
+          </article>
+        </main>
+      </div>
+</body>
+</html>

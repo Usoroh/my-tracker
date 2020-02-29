@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	// "strconv"
 )
 
 var temp *template.Template
@@ -87,12 +88,13 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 
 func getArtist(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("lel")
-	temp, _ := template.ParseFiles("templates/artist.html")
-
+	temp, _ := template.ParseFiles("templates/test.html")
+	fmt.Println("here")
 	if r.Method == "GET" {
+		fmt.Println("here")
 		ID, _ := strconv.Atoi(r.FormValue("uid"))
 		API.ID = ID - 1
+		fmt.Println(API.ID)
 		temp.Execute(w, API)
 	}
 }
-

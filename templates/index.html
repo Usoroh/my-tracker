@@ -10,7 +10,8 @@
 </head>
 <body class=".radial-gradient">
     <header>
-        <h1>Groupie-Tracker</h1>
+        <!-- <h1>Groupie-Tracker</h1> -->
+        <div class="logo"><b>Gr<span>ou</span>pie <span>Tra</span>cker</b></div>
       </header>
       <main class="container">
         {{range .}}
@@ -22,8 +23,9 @@
                 <h2>{{.Name}}</h2>
             </div>
             <div class="artist-info">
-                <form method="get" action="/artist/{{.Name}}">
-                <button type="button" class="btn btn-light">See more</button>
+                <form method="GET" action="/artist">
+                <input type="hidden" name="uid" value="{{.ID}}">  
+                <button type="submit" class="btn btn-light">See more</button>
                 </form>
             </div>
             </article>
