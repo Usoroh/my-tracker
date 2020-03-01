@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 	"strconv"
 	// "strconv"
 )
@@ -43,7 +44,19 @@ type Performer struct {
 	FirstAlbum   string
 }
 
+type Response struct {
+	Results []struct {
+		Geometry struct {
+			Location struct {
+				Lat float64
+				Lng float64
+			}
+		}
+	}
+}
+
 func main() {
+	placeMarkers("lausanne-switzerland")
 
 	//create each group, location strict -> then put data
 	artists, _ := http.Get("https://groupietrackers.herokuapp.com/api/artists")
@@ -87,9 +100,7 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func getArtist(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("lel")
 	temp, _ := template.ParseFiles("templates/test.html")
-	fmt.Println("here")
 	if r.Method == "GET" {
 		fmt.Println("here")
 		ID, _ := strconv.Atoi(r.FormValue("uid"))
@@ -97,4 +108,43 @@ func getArtist(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(API.ID)
 		temp.Execute(w, API)
 	}
+}
+
+func placeMarkers(a string) {
+	fmt.Println("here")
+	// c, err := maps.NewClient(maps.WithAPIKey("AIzaSyDji8r-zQbC7DIfHWpPaTUX0uwtFGT6_eo"))
+	// if err != nil {
+	// 	log.Fatalf("fatal error: %s", err)
+	// }
+
+	// r := &maps.GeocodingRequest{
+	// 	Address: a,
+	// }
+
+	// coor, err := c.Geocode(context.Background(), r)
+	// if err != nil {
+	// 	log.Fatalf("fatal erro: %s", err)
+	// }
+
+	// fmt.Println(coor)
+	safeAddr := url.QueryEscape(a)
+	apiKey := "AIzaSyDji8r-zQbC7DIfHWpPaTUX0uwtFGT6_eo"
+	fullURL := fmt.Sprintf("https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s", safeAddr, apiKey)
+	resp, err := http.Get(fullURL)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer resp.Body.Close()
+
+	var res Response
+
+	if err := json.NewDecoder(resp.Body).Decode(&res); err != nil {
+		log.Println(err)
+	}
+
+	lat := res.Results[0].Geometry.Location.Lat
+	lng := res.Results[0].Geometry.Location.Lng
+
+	fmt.Println(lat)
+	fmt.Println(lng)
 }
