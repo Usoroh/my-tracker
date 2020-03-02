@@ -142,13 +142,37 @@ tr {
         <script>
     // Initialize and add the map
     function initMap() {
-      // The location of Uluru
-      var uluru = {lat: 46.5196535, lng: 6.6322734};
-      // The map, centered at Uluru
+
+      //get the locations
+      locations = document.getElementsByClassName("location-td")
+      res = ""
+      for (var i = 0; i < locations.length; i++) {
+        res = res + locations[i].innerHTML
+        if (i < locations.length - 1) {
+          res = res + "+"
+        }
+      }
+      //request coordinates from a server
+      var coordinates
+      fetch("http://localhost:8080/map?places="+res).then(response => {
+        console.log(response.json)
+        return response.json()
+      }).then(function(data) {
+        coordinates = data
+        console.log("kek", coordinates)
+
+      // The location of first place
+      var ctr = {lat: coordinates[0].Lat, lng: coordinates[0].Lng};
+      // The map, centered at first place
       var map = new google.maps.Map(
-          document.getElementById('map'), {zoom: 4, center: uluru});
-      // The marker, positioned at Uluru
-      var marker = new google.maps.Marker({position: uluru, map: map});
+          document.getElementById('map'), {zoom: 4, center: ctr});
+      //markers
+      var m
+      for (var i = 0; i < coordinates.length; i++) {
+        ctr = {lat: coordinates[i].Lat, lng: coordinates[i].Lng}
+        m = new google.maps.Marker({position: ctr, map: map})
+      }
+      })
     }
         </script>
         <!--Load the API from the specified URL
